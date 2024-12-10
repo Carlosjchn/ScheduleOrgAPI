@@ -4,6 +4,8 @@ package com.jpa1prueba.jpademo.entities;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,30 +15,29 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 enum TipoUser {
-    TRABAJADOR,
-    JEFE,
-    ADMIN
+    Trabajador,
+    Jefe,
+    Admin
 }
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Builder
-@Table(name = "usuario")
-public class User {
+@Table(name = "Usuarios")
+public class Usuarios {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id_usuario")
-    protected long idUsuario; 
-
+    protected Long idUsuario; 
+    
+    @Enumerated(EnumType.STRING)
     @Column(name="tipo")
     protected TipoUser tipo;
 
@@ -54,7 +55,7 @@ public class User {
         name = "id_equipo",
         referencedColumnName = "id_equipo"
     )
-    protected Equipo equipoUser;
+    protected Equipos equipoUser;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioAsociado", fetch = FetchType.LAZY)
     protected List<Horarios> horariosUser;

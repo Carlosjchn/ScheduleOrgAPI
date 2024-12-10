@@ -1,42 +1,34 @@
 package com.jpa1prueba.jpademo.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "horarios")
+@Table(name = "Horarios")
 public class Horarios {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_horario")
-    protected long idHorario;
+    protected Long idHorario;
 
     @ManyToOne
-    @JoinColumn
-    (name="id_usuario",
-    referencedColumnName = "id_usuario")
-    protected long usuarioAsociado;
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
+    protected Usuarios usuarioAsociado;
 
     @Column(name = "fecha")
-    protected String fecha;
+    protected LocalDate fecha;
 
-    @Column(name = "hora_incio")
-    protected String horaInicio;
+    @Column(name = "hora_inicio")
+    protected LocalTime horaInicio;
 
     @Column(name = "hora_fin")
-    protected String horaFin;
-
+    protected LocalTime horaFin;
 }
