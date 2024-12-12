@@ -10,6 +10,7 @@ import com.jpa1prueba.jpademo.entities.Horarios;
 import com.jpa1prueba.jpademo.services.HorariosService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/horarios")
@@ -28,6 +29,12 @@ public class HorariosController{
     public ResponseEntity<List<HorarioDetailDTO>> getHorariosByUsuario(@PathVariable Long idUsuario) {
         List<HorarioDetailDTO> horarios = horariosService.getHorariosByIdUsuario(idUsuario);
         return ResponseEntity.ok(horarios);
+    }
+
+    @GetMapping("/idUsuario/{idUsuario}/fecha/{fecha}")
+    public ResponseEntity<Optional<HorarioDetailDTO>> getHorarioByIdUsuarioAndFecha(@PathVariable Long idUsuario, @PathVariable String fecha) {
+        Optional<HorarioDetailDTO> horario = horariosService.getHorarioByIdUsuarioAndFecha(idUsuario, fecha);
+        return ResponseEntity.ok(horario);
     }
 
     @GetMapping("/idUsuario/{idUsuario}/month/{month}")

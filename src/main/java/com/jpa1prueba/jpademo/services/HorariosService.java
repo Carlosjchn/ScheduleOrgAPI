@@ -10,7 +10,9 @@ import com.jpa1prueba.jpademo.mappers.HorarioMapper;
 
 import com.jpa1prueba.jpademo.repositories.HorariosRepository;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -37,6 +39,14 @@ public class HorariosService {
             .map(HorarioMapper::toHorarioDetailDTO)
             .collect(Collectors.toList());
     }
+
+    public Optional<HorarioDetailDTO> getHorarioByIdUsuarioAndFecha(Long idUsuario, String fechaText){
+        Usuarios usuario = usuarioService.getUsuarioById(idUsuario);
+        LocalDate fecha = LocalDate.parse(fechaText);
+        return horariosRepository.findByUsuarioAsociadoAndFecha(usuario, fecha)
+            .map(HorarioMapper::toHorarioDetailDTO);
+    }
+
 
     public List<HorarioDetailDTO> getAllHorarios() {
         return horariosRepository.findAll()

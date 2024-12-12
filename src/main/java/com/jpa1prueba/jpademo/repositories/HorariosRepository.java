@@ -1,6 +1,8 @@
 package com.jpa1prueba.jpademo.repositories;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -18,5 +20,8 @@ public interface HorariosRepository extends JpaRepository<Horarios, Long> {
 
     @Query("SELECT h FROM Horarios h WHERE h.usuarioAsociado = :usuario AND MONTH(h.fecha) = :mes")
     List<Horarios> findByUsuarioAsociadoAndMonth(@Param("usuario") Usuarios usuario, @Param("mes") int mes);
+
+    @Query("SELECT h FROM Horarios h WHERE h.usuarioAsociado = :usuarioAsociado AND h.fecha = :fecha")
+    Optional<Horarios> findByUsuarioAsociadoAndFecha(@Param("usuarioAsociado") Usuarios usuarioAsociado, @Param("fecha") LocalDate fecha);
 
 }
