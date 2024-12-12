@@ -13,8 +13,8 @@ import com.jpa1prueba.jpademo.entities.Usuarios;
 import com.jpa1prueba.jpademo.services.UsuarioService;
 
 @RestController
-@RequestMapping("/api/usuario")
-public class UsuarioController {
+@RequestMapping("api/usuarios")
+public class UsuarioController{
 
     @Autowired
     private UsuarioService usuarioService;

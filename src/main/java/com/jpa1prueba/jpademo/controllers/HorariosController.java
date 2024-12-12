@@ -12,8 +12,8 @@ import com.jpa1prueba.jpademo.services.HorariosService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/horarios")
-public class HorariosController {
+@RequestMapping("api/horarios")
+public class HorariosController{
 
     @Autowired
     private HorariosService horariosService;

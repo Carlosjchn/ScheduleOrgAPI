@@ -12,7 +12,7 @@ import com.jpa1prueba.jpademo.entities.Equipos;
 import com.jpa1prueba.jpademo.services.EquiposService;
 
 @RestController
-@RequestMapping("/api/equipos")
+@RequestMapping("api/equipos")
 public class EquiposController {
 
     @Autowired
