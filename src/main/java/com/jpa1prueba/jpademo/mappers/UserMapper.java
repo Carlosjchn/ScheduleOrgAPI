@@ -20,9 +20,10 @@ public class UserMapper {
                 .idUsuario(user.getIdUsuario())
                 .nombre(user.getNombre())
                 .email(user.getEmail())
+                .contrasena(user.getContrasena())
                 .equipoAsociado(EquipoMapper.toEquipoBasicDTO(user.getEquipoUser()))
-                .horariosUser(user.getHorariosUser().stream()
-                        .map(HorarioMapper::toHorarioBasicDTO)
+                .horariosUser(user.getHorarios().stream()
+                        .map(HorarioMapper::toHorarioDetailDTO)
                         .collect(Collectors.toList()))
                 .build();
     }

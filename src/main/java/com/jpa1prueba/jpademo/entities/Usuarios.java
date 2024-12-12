@@ -58,6 +58,6 @@ public class Usuarios {
     protected Equipos equipoUser;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioAsociado", fetch = FetchType.LAZY)
-    protected List<Horarios> horariosUser;
+    protected List<Horarios> horarios;
 
 }

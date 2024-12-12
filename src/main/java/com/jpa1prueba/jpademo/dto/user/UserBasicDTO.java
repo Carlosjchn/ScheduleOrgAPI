@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserBasicDTO {
-    // DTO for listing basic user info
     private String nombre;
     private String email;
 }

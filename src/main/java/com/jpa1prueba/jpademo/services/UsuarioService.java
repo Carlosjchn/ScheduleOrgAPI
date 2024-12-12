@@ -1,7 +1,6 @@
 package com.jpa1prueba.jpademo.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,15 +26,35 @@ public class UsuarioService {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
     }
 
-    /**
-     * Retrieves a user with their associated schedules.
-     */
-    public UserDetailDTO getUsuarioWithHorarios(Long usuarioId) {
-        Usuarios usuario = usuarioRepository.findById(usuarioId)
+    public UserDetailDTO getUsuarioDTOById(Long idUsuario) {
+        return usuarioRepository.findById(idUsuario)
+                .map(UserMapper::toUserDetailDTO)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    }
 
-        // Map the user to UserDetailDTO
-        return UserMapper.toUserDetailDTO(usuario);
+    public UserDetailDTO getUsuarioByNombre(String idUsuario) {
+        return usuarioRepository.findByNombre(idUsuario)
+                .map(UserMapper::toUserDetailDTO)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    }
+    
+    
+    public UserDetailDTO getUserByNombreOrEmail(String nameOrMail) {
+        return usuarioRepository.findByNombreOrEmail(nameOrMail)
+        .map(UserMapper::toUserDetailDTO)
+        .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    }
+
+
+    public UserDetailDTO login(String nameOrMail, String password) {
+
+
+        UserDetailDTO user = getUserByNombreOrEmail(nameOrMail);
+        if (user != null && password.equals(user.getContrasena())) {
+            return user;
+        }
+        
+        throw new RuntimeException("Credenciales incorrectas");
     }
 
     public List<UserDetailDTO> getAll() {
@@ -61,4 +80,7 @@ public class UsuarioService {
         }
         usuarioRepository.deleteById(idUsuario);
     }
+
+    
+        
 }

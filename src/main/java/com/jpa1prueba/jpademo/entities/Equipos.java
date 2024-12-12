@@ -2,6 +2,7 @@ package com.jpa1prueba.jpademo.entities;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -36,5 +37,10 @@ public class Equipos {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "equipoUser", fetch = FetchType.LAZY)
     protected List<Usuarios> usuarios;
+
+    public Optional<Equipos> map(Object object) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'map'");
+    }
 
 }
