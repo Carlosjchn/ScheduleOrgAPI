@@ -41,4 +41,20 @@ public class EquiposService {
     public void deleteEquipo(Long idEquipo) {
         equiposRepository.deleteById(idEquipo);
     }
+
+    public Equipos updateEquipo(Long idEquipo, Equipos equipo) {
+        // Buscar el equipo existente por su ID
+        Equipos existingEquipo = equiposRepository.findById(idEquipo)
+                .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
+    
+        // Actualizar los campos del equipo existente con los nuevos valores
+        existingEquipo.setNombre(equipo.getNombre());
+        existingEquipo.setTipo(equipo.getTipo());
+        existingEquipo.setHoraInicioAct(equipo.getHoraInicioAct());
+        existingEquipo.setHoraFinAct(equipo.getHoraFinAct());
+    
+        // Guardar el equipo actualizado
+        return equiposRepository.save(existingEquipo);
+    }
+    
 }

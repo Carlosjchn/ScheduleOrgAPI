@@ -62,4 +62,19 @@ public class HorariosService {
     public void deleteHorario(Long idHorario) {
         horariosRepository.deleteById(idHorario);
     }
+
+    public Horarios updateHorario(Long idHorario, Horarios horario) {
+        // Buscar el horario existente por su ID
+        Horarios existingHorario = horariosRepository.findById(idHorario)
+                .orElseThrow(() -> new RuntimeException("Horario no encontrado"));
+    
+        // Actualizar los campos del horario existente con los nuevos valores
+        existingHorario.setFecha(horario.getFecha());
+        existingHorario.setHoraInicio(horario.getHoraInicio());
+        existingHorario.setHoraFin(horario.getHoraFin());
+        existingHorario.setUsuarioAsociado(horario.getUsuarioAsociado());
+    
+        // Guardar el horario actualizado
+        return horariosRepository.save(existingHorario);
+    }
 }

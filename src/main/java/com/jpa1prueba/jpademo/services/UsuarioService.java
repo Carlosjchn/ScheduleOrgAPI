@@ -18,9 +18,7 @@ public class UsuarioService {
     @Autowired
     private UserRepository usuarioRepository;
 
-    /**
-     * Retrieves a user by ID.
-     */
+
     public Usuarios getUsuarioById(Long idUsuario) {
         return usuarioRepository.findById(idUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
@@ -64,16 +62,12 @@ public class UsuarioService {
                 .toList();
     }
 
-    /**
-     * Creates a new user.
-     */
+
     public Usuarios createUsuario(Usuarios usuario) {
         return usuarioRepository.save(usuario);
     }
 
-    /**
-     * Deletes a user by ID.
-     */
+ 
     public void deleteUsuario(Long idUsuario) {
         if (!usuarioRepository.existsById(idUsuario)) {
             throw new RuntimeException("Usuario no encontrado para eliminar");
@@ -81,6 +75,20 @@ public class UsuarioService {
         usuarioRepository.deleteById(idUsuario);
     }
 
+    public Usuarios updateUsuario(Long idUsuario, Usuarios usuario) {
+        // Verifica si el usuario existe
+        Usuarios existingUsuario = usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
     
+        // Actualiza los campos del usuario con los nuevos valores
+        existingUsuario.setNombre(usuario.getNombre());
+        existingUsuario.setEmail(usuario.getEmail());
+        existingUsuario.setContrasena(usuario.getContrasena());
+        existingUsuario.setTipo(usuario.getTipo());
+        existingUsuario.setEquipoUser(usuario.getEquipoUser());
+    
+        // Guarda el usuario actualizado en la base de datos
+        return usuarioRepository.save(existingUsuario);
+    }
         
 }
