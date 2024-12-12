@@ -30,6 +30,14 @@ public class HorariosController {
         return ResponseEntity.ok(horarios);
     }
 
+    @GetMapping("/idUsuario/{idUsuario}/month/{month}")
+    public ResponseEntity<List<HorarioDetailDTO>> getHorariosByUsuarioAndMonth(@PathVariable Long idUsuario, @PathVariable int month) {
+        List<HorarioDetailDTO> horarios = horariosService.getHorariosByIdUsuarioAndMonth(idUsuario, month);
+        return ResponseEntity.ok(horarios);
+    }
+
+
+
     @PostMapping("/crear")
     public ResponseEntity<Horarios> createHorario(@RequestBody Horarios horario) {
         Horarios createdHorario = horariosService.createHorario(horario);

@@ -30,6 +30,14 @@ public class HorariosService {
             .collect(Collectors.toList());
     }
 
+    public List<HorarioDetailDTO> getHorariosByIdUsuarioAndMonth(Long idUsuario, int month) {
+        Usuarios usuario = usuarioService.getUsuarioById(idUsuario);
+        return horariosRepository.findByUsuarioAsociadoAndMonth(usuario, month)
+            .stream()
+            .map(HorarioMapper::toHorarioDetailDTO)
+            .collect(Collectors.toList());
+    }
+
     public List<HorarioDetailDTO> getAllHorarios() {
         return horariosRepository.findAll()
                 .stream()
