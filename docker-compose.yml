@@ -1,0 +1,11 @@
+version: '3'
+services:
+  spring-boot-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev  # Specify Dockerfile if not the default
+    ports:
+      - "8080:8080"  # Expose the container's port 8080 to the host machine
+    volumes:
+      - .:/app  # Mount the current directory into the container's /app directory
+
