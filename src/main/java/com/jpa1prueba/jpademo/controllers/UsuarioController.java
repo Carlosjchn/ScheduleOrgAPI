@@ -2,7 +2,7 @@ package com.jpa1prueba.jpademo.controllers;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +23,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 @RequestMapping("api/usuarios")
 public class UsuarioController {
 
-    @Autowired
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
+    
     /**
      * Obtiene todos los usuarios registrados en el sistema.
      * 
@@ -37,34 +40,6 @@ public class UsuarioController {
     @GetMapping("/all")
     public List<UserDetailDTO> getAllUsers() {
         return usuarioService.getAll();
-    }
-
-    /**
-     * Realiza el inicio de sesión de un usuario utilizando el nombre de usuario o
-     * correo y la contraseña.
-     * 
-     * @param nameOrMail Nombre de usuario o correo electrónico del usuario.
-     * @param password   Contraseña del usuario.
-     * @return Los detalles del usuario si el inicio de sesión es exitoso.
-     */
-    @Operation(summary = "Iniciar sesión", description = "Permite iniciar sesión en el sistema usando nombre de usuario/correo y contraseña.")
-    @ApiResponse(responseCode = "200", description = "Inicio de sesión exitoso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDetailDTO.class)))
-    @ApiResponse(responseCode = "400", description = "Datos incorrectos.", content = @Content(mediaType = "application/json"))
-    @ApiResponse(responseCode = "401", description = "Credenciales incorrectas.", content = @Content(mediaType = "application/json"))
-    @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestParam String nameOrMail, @RequestParam String password) {
-        try {
-            // Intentar iniciar sesión con las credenciales proporcionadas
-            UserDetailDTO user = usuarioService.login(nameOrMail, password);
-            return ResponseEntity.ok(user); // Devuelve los detalles del usuario si el inicio de sesión es exitoso
-        } catch (IllegalArgumentException e) {
-            // Solicitud incorrecta cuando los campos son inválidos
-            return ResponseEntity.badRequest().body("Datos incorrectos.");
-        } catch (RuntimeException e) {
-            // No autorizado cuando las credenciales son incorrectas
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Credenciales incorrectas");
-        }
     }
 
     /**

@@ -2,7 +2,6 @@ package com.jpa1prueba.jpademo.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jpa1prueba.jpademo.dto.equipo.EquipoBasicDTO;
@@ -14,8 +13,11 @@ import com.jpa1prueba.jpademo.repositories.EquiposRepository;
 @Service
 public class EquiposService {
 
-    @Autowired
-    private EquiposRepository equiposRepository;
+    private final EquiposRepository equiposRepository;
+    
+    public EquiposService(EquiposRepository equiposRepository){
+        this.equiposRepository = equiposRepository;
+    }
 
     public List<EquipoBasicDTO> getAllEquipos() {
         return equiposRepository.findAll()

@@ -2,7 +2,7 @@ package com.jpa1prueba.jpademo.controllers;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +23,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 @RequestMapping("api/equipos")
 public class EquiposController {
 
-    @Autowired
+
     private EquiposService equiposService;
+
+    public EquiposController(EquiposService equiposService) {
+        this.equiposService = equiposService;
+    }
 
     /**
      * Obtiene una lista de todos los equipos registrados en el sistema.

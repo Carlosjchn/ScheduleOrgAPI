@@ -18,7 +18,6 @@ public class UserDetailDTO {
     private Long idUsuario;
     private String nombre;
     private String email;
-    private String contrasena;
     private EquipoBasicDTO equipoAsociado;
     private List<HorarioDetailDTO> horariosUser;
 }

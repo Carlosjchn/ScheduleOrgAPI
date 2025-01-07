@@ -1,6 +1,6 @@
 package com.jpa1prueba.jpademo.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +24,12 @@ import java.util.Optional;
 @RequestMapping("api/horarios")
 public class HorariosController {
 
-    @Autowired
-    private HorariosService horariosService;
+    
+    private final HorariosService horariosService;
+
+    public HorariosController(HorariosService horariosService) {
+        this.horariosService = horariosService;
+    }
 
     /**
      * Obtiene todos los horarios registrados en el sistema.

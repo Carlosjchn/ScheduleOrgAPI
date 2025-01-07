@@ -1,6 +1,5 @@
 package com.jpa1prueba.jpademo.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jpa1prueba.jpademo.dto.horario.HorarioDetailDTO;
@@ -19,10 +18,13 @@ import java.util.stream.Collectors;
 @Service
 public class HorariosService {
 
-    @Autowired
-    private HorariosRepository horariosRepository;
-    @Autowired
-    UsuarioService usuarioService = new UsuarioService();
+    private final HorariosRepository horariosRepository;
+    private final UsuarioService usuarioService;
+
+    public HorariosService(HorariosRepository horariosRepository, UsuarioService usuarioService) {
+        this.horariosRepository = horariosRepository;
+        this.usuarioService = usuarioService;
+    }
 
     public List<HorarioDetailDTO> getHorariosByIdUsuario(Long idUsuario) {
         Usuarios usuario = usuarioService.getUsuarioById(idUsuario);

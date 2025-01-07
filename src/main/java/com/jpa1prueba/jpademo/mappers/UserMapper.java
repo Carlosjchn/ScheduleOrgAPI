@@ -20,7 +20,6 @@ public class UserMapper {
                 .idUsuario(user.getIdUsuario())
                 .nombre(user.getNombre())
                 .email(user.getEmail())
-                .contrasena(user.getContrasena())
                 .equipoAsociado(EquipoMapper.toEquipoBasicDTO(user.getEquipoUser()))
                 .horariosUser(user.getHorarios().stream()
                         .map(HorarioMapper::toHorarioDetailDTO)

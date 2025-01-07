@@ -17,14 +17,8 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.List;
-
-enum TipoUser {
-    Trabajador,
-    Jefe,
-    Admin
-}
+import com.jpa1prueba.jpademo.entities.enums.TipoUser;
 
 @Data
 @NoArgsConstructor
@@ -33,7 +27,7 @@ enum TipoUser {
 @Table(name = "Usuarios")
 public class Usuarios {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_usuario")
     protected Long idUsuario; 
     
@@ -53,7 +47,8 @@ public class Usuarios {
     @ManyToOne()
     @JoinColumn(
         name = "id_equipo",
-        referencedColumnName = "id_equipo"
+        referencedColumnName = "id_equipo",
+        nullable = true
     )
     protected Equipos equipoUser;
 
