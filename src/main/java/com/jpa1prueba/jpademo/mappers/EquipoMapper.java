@@ -9,6 +9,9 @@ import com.jpa1prueba.jpademo.entities.Equipos;
 public class EquipoMapper {
 
     public static EquipoBasicDTO toEquipoBasicDTO(Equipos equipo) {
+        if (equipo == null) {
+            return null; // Return null or a default DTO if equipo is null
+        }
         return EquipoBasicDTO.builder()
                 .nombre(equipo.getNombre())
                 .tipo(equipo.getTipo())

@@ -28,7 +28,7 @@ public class Equipos {
     @Column(name="nombre")
     protected String nombre;
     
-    @Column(name="horas_inicio_act")
+    @Column(name="hora_inicio_act")
     protected LocalTime horaInicioAct;
 
     @Column(name="hora_fin_act")

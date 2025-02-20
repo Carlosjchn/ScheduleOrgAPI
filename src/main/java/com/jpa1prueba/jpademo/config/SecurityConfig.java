@@ -18,6 +18,7 @@ public class SecurityConfig {
             .authorizeRequests()
                 .anyRequest().permitAll(); // Permit all requests without authentication
         return http.build(); // Return the configured HttpSecurity instance
+        
     }
 
     @Bean
