@@ -32,9 +32,8 @@ public class Usuarios {
     protected Long idUsuario; 
     
     @Enumerated(EnumType.STRING)
-    @Column(name="tipo")
-    protected TipoUser tipo;
-
+    @Column(name="tipo", nullable = false)
+    protected TipoUser tipo = TipoUser.INDEFINIDO;  // Set default value
     @Column(name="nombre")
     protected String nombre;
 

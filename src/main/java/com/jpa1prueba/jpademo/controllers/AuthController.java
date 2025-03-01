@@ -3,9 +3,9 @@ package com.jpa1prueba.jpademo.controllers;
 import com.jpa1prueba.jpademo.dto.auth.AuthResponse;
 import com.jpa1prueba.jpademo.dto.auth.LoginRequest;
 import com.jpa1prueba.jpademo.entities.Usuarios;
+import com.jpa1prueba.jpademo.entities.enums.TipoUser;
 import com.jpa1prueba.jpademo.services.AuthService;
 import com.jpa1prueba.jpademo.dto.auth.RegisterRequest;
-import com.jpa1prueba.jpademo.services.UsuarioService;
 
 
 import java.util.Optional;
@@ -56,7 +56,7 @@ public class AuthController {
             nuevoUsuario.setNombre(request.getNombre());
             nuevoUsuario.setEmail(request.getEmail());
             nuevoUsuario.setContrasena(request.getContrasena());
-            nuevoUsuario.setTipo(request.getTipo());
+            // tipo will use the default value from the entity
             
             authService.registerUser(nuevoUsuario);
             return ResponseEntity.ok("Usuario registrado correctamente");

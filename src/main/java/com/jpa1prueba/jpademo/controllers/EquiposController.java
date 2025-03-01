@@ -71,7 +71,17 @@ public class EquiposController {
     public Equipos getEquipo(@PathVariable Long idEquipo) {
         return equiposService.getEquipoById(idEquipo);
     }
-
+    @Operation(summary = "Obtener equipo por ID de usuario", 
+              description = "Devuelve los detalles del equipo al que pertenece un usuario específico.")
+    @Parameter(name = "idUsuario", description = "ID del usuario", required = true)
+    @ApiResponse(responseCode = "200", 
+                description = "Equipo encontrado con éxito.", 
+                content = @Content(mediaType = "application/json", 
+                schema = @Schema(implementation = EquipoDetailDTO.class)))
+    @GetMapping("/usuario/{idUsuario}")
+    public EquipoDetailDTO getEquipoByUserId(@PathVariable Long idUsuario) {
+        return equiposService.getEquipoByUserId(idUsuario);
+    }
     /**
      * Crea un nuevo equipo en el sistema.
      * 

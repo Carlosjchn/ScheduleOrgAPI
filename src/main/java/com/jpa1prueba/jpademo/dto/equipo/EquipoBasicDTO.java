@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EquipoBasicDTO {
-
     private String nombre;
     private String tipo;
-
 }

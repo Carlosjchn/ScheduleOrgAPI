@@ -32,6 +32,11 @@ public class EquiposService {
                 .orElseThrow(() -> new RuntimeException("No se encontró el equipo con el nombre"));
     }
 
+    public EquipoDetailDTO getEquipoByUserId(Long idUsuario) {
+        return equiposRepository.findByUsuariosIdUsuario(idUsuario)
+                .map(EquipoMapper::toEquipoDetailDTO)
+                .orElseThrow(() -> new RuntimeException("No se encontró equipo asociado al usuario"));
+    }
     public Equipos getEquipoById(Long idEquipo) {
         return equiposRepository.findById(idEquipo).orElse(null);
     }
