@@ -33,7 +33,8 @@ public class EquiposService {
     }
 
     public EquipoDetailDTO getEquipoByUserId(Long idUsuario) {
-        return equiposRepository.findByUsuariosIdUsuario(idUsuario)
+        // Actualizado para usar el nuevo método del repositorio
+        return equiposRepository.findByUsuarioId(idUsuario)
                 .map(EquipoMapper::toEquipoDetailDTO)
                 .orElseThrow(() -> new RuntimeException("No se encontró equipo asociado al usuario"));
     }
@@ -63,5 +64,4 @@ public class EquiposService {
         // Guardar el equipo actualizado
         return equiposRepository.save(existingEquipo);
     }
-    
 }

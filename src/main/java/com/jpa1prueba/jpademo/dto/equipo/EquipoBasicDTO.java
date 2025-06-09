@@ -1,5 +1,7 @@
 package com.jpa1prueba.jpademo.dto.equipo;
 
+import java.time.LocalTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

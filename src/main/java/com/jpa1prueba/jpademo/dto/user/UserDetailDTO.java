@@ -2,8 +2,9 @@ package com.jpa1prueba.jpademo.dto.user;
 
 import java.util.List;
 
-import com.jpa1prueba.jpademo.dto.equipo.EquipoBasicDTO;
-import com.jpa1prueba.jpademo.dto.horario.HorarioDetailDTO;
+import com.jpa1prueba.jpademo.dto.equipo.EquipoUsuarioDTO;
+import com.jpa1prueba.jpademo.dto.evento.EventoDetailDTO;
+import com.jpa1prueba.jpademo.entities.enums.TipoUser;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +19,7 @@ public class UserDetailDTO {
     private Long idUsuario;
     private String nombre;
     private String email;
-    private EquipoBasicDTO equipoAsociado;
-    private List<HorarioDetailDTO> horariosUser;
+    private TipoUser tipo;
+    private List<EquipoUsuarioDTO> equipos;
+    private List<EventoDetailDTO> eventosUser;
 }

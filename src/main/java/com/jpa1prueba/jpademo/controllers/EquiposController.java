@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.jpa1prueba.jpademo.dto.equipo.EquipoBasicDTO;
 import com.jpa1prueba.jpademo.dto.equipo.EquipoDetailDTO;
 import com.jpa1prueba.jpademo.entities.Equipos;
-
+import com.jpa1prueba.jpademo.mappers.EquipoMapper;
 import com.jpa1prueba.jpademo.services.EquiposService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -62,14 +62,18 @@ public class EquiposController {
      * Obtiene los detalles de un equipo mediante su ID.
      * 
      * @param idEquipo ID único del equipo que se busca.
-     * @return Objeto `Equipos` que contiene la información completa del equipo.
+     * @return Objeto `EquipoDetailDTO` que contiene la información detallada del equipo.
      */
     @Operation(summary = "Obtener equipo por ID", description = "Devuelve los detalles de un equipo utilizando su ID.")
     @Parameter(name = "idEquipo", description = "ID del equipo", required = true)
-    @ApiResponse(responseCode = "200", description = "Equipo encontrado con éxito.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Equipos.class)))
+    @ApiResponse(responseCode = "200", description = "Equipo encontrado con éxito.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = EquipoDetailDTO.class)))
     @GetMapping("/id/{idEquipo}")
-    public Equipos getEquipo(@PathVariable Long idEquipo) {
-        return equiposService.getEquipoById(idEquipo);
+    public EquipoDetailDTO getEquipo(@PathVariable Long idEquipo) {
+        Equipos equipo = equiposService.getEquipoById(idEquipo);
+        if (equipo == null) {
+            throw new RuntimeException("No se encontró el equipo con el ID proporcionado");
+        }
+        return EquipoMapper.toEquipoDetailDTO(equipo);
     }
     @Operation(summary = "Obtener equipo por ID de usuario", 
               description = "Devuelve los detalles del equipo al que pertenece un usuario específico.")
