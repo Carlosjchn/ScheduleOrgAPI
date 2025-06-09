@@ -1,6 +1,5 @@
 package com.jpa1prueba.jpademo.entities;
 
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,15 +9,15 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.List;
+import java.util.ArrayList;
 import com.jpa1prueba.jpademo.entities.enums.TipoUser;
+import com.jpa1prueba.jpademo.entities.enums.RolEquipo;
 
 @Data
 @NoArgsConstructor
@@ -33,7 +32,8 @@ public class Usuarios {
     
     @Enumerated(EnumType.STRING)
     @Column(name="tipo", nullable = false)
-    protected TipoUser tipo = TipoUser.INDEFINIDO;  // Set default value
+    protected TipoUser tipo = TipoUser.USUARIO;  // Valor por defecto actualizado
+    
     @Column(name="nombre")
     protected String nombre;
 
@@ -43,15 +43,19 @@ public class Usuarios {
     @Column(name = "contrasena")
     protected String contrasena;
 
-    @ManyToOne()
-    @JoinColumn(
-        name = "id_equipo",
-        referencedColumnName = "id_equipo",
-        nullable = true
-    )
-    protected Equipos equipoUser;
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    protected List<UsuarioEquipo> equipos = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioAsociado", fetch = FetchType.LAZY)
-    protected List<Horarios> horarios;
-
+    protected List<Eventos> eventos;
+    
+    // Método de conveniencia para agregar un equipo con un rol específico
+    public void agregarEquipo(Equipos equipo, RolEquipo rol) {
+        UsuarioEquipo usuarioEquipo = new UsuarioEquipo();
+        usuarioEquipo.setUsuario(this);
+        usuarioEquipo.setEquipo(equipo);
+        usuarioEquipo.setRol(rol);
+        this.equipos.add(usuarioEquipo);
+        equipo.getUsuariosEquipo().add(usuarioEquipo);
+    }
 }

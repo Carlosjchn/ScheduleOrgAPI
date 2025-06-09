@@ -102,4 +102,20 @@ public class UsuarioController {
         return ResponseEntity.ok(updatedUsuario); // Usuario actualizado con éxito
     }
 
+    @Operation(summary = "Unirse a un equipo", 
+              description = "Permite a un usuario unirse a un equipo específico con el rol de MIEMBRO.")
+    @ApiResponse(responseCode = "200", description = "Usuario unido al equipo exitosamente.")
+    @ApiResponse(responseCode = "400", description = "El usuario ya es miembro del equipo o datos inválidos.")
+    @ApiResponse(responseCode = "404", description = "Usuario o equipo no encontrado.")
+    @PostMapping("/unirse-equipo/{idUsuario}/{idEquipo}")
+    public ResponseEntity<String> unirseAEquipo(
+            @PathVariable Long idUsuario,
+            @PathVariable Long idEquipo) {
+        try {
+            usuarioService.unirseAEquipo(idUsuario, idEquipo);
+            return ResponseEntity.ok("Usuario unido al equipo exitosamente");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

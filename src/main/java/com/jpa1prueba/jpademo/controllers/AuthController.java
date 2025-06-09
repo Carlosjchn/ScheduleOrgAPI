@@ -6,7 +6,7 @@ import com.jpa1prueba.jpademo.entities.Usuarios;
 import com.jpa1prueba.jpademo.entities.enums.TipoUser;
 import com.jpa1prueba.jpademo.services.AuthService;
 import com.jpa1prueba.jpademo.dto.auth.RegisterRequest;
-
+import com.nimbusds.jwt.JWTClaimsSet;
 
 import java.util.Optional;
 
@@ -28,25 +28,27 @@ public class AuthController {
     @PostMapping("/login") 
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest request) {
         try {
-            Optional<Usuarios> optionalUsuario = authService.loginUser(request.getNombreoremail(), request.getContrasena());
+            String jweToken = authService.loginUser(request.getNombreoremail(), request.getContrasena());
             
-            if (optionalUsuario.isPresent()) {
-                Usuarios usuario = optionalUsuario.get();
-                
+            if (jweToken != null) {
+                // Just send the token, user data is encrypted inside
                 AuthResponse response = AuthResponse.builder()
-                    .token(usuario.getIdUsuario())
-                    .userName(usuario.getNombre())
-                    .userType(usuario.getTipo().toString())
+                    .token(jweToken)
                     .build();
                 
                 return ResponseEntity.ok(response);
             } else {
                 return ResponseEntity.status(401).body("Invalid credentials");
             }
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             return ResponseEntity.status(401).body(e.getMessage());
         }
-        
+    }
+
+    @GetMapping("/encryption-key")
+    public ResponseEntity<String> getSecretKey() {
+        // In production, this should be properly secured
+        return ResponseEntity.ok(authService.getSecretKey());
     }
     
     @PostMapping("/register")

@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import com.jpa1prueba.jpademo.dto.equipo.EquipoBasicDTO;
 import com.jpa1prueba.jpademo.dto.equipo.EquipoDetailDTO;
 import com.jpa1prueba.jpademo.entities.Equipos;
+import com.jpa1prueba.jpademo.entities.UsuarioEquipo;
 
 public class EquipoMapper {
 
@@ -25,7 +26,8 @@ public class EquipoMapper {
                 .nombre(equipo.getNombre())
                 .horaInicio(equipo.getHoraInicioAct())
                 .horaFin(equipo.getHoraFinAct())
-                .Usuarios(equipo.getUsuarios().stream()
+                .Usuarios(equipo.getUsuariosEquipo().stream()
+                        .map(UsuarioEquipo::getUsuario)
                         .map(UserMapper::toUserBasicDTO)
                         .collect(Collectors.toList()))
                 .build();

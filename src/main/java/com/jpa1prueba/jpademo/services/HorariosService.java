@@ -3,10 +3,10 @@ package com.jpa1prueba.jpademo.services;
 import org.springframework.stereotype.Service;
 
 import com.jpa1prueba.jpademo.dto.horario.HorarioDetailDTO;
+import com.jpa1prueba.jpademo.dto.horario.HorarioBasicDTO;
 import com.jpa1prueba.jpademo.entities.Horarios;
 import com.jpa1prueba.jpademo.entities.Usuarios;
 import com.jpa1prueba.jpademo.mappers.HorarioMapper;
-
 import com.jpa1prueba.jpademo.repositories.HorariosRepository;
 
 import java.time.LocalDate;
@@ -26,35 +26,34 @@ public class HorariosService {
         this.usuarioService = usuarioService;
     }
 
+    public List<HorarioBasicDTO> getAllHorarios() {
+        return horariosRepository.findAll()
+                .stream()
+                .map(HorarioMapper::toHorarioBasicDTO)
+                .collect(Collectors.toList());
+    }
+
     public List<HorarioDetailDTO> getHorariosByIdUsuario(Long idUsuario) {
         Usuarios usuario = usuarioService.getUsuarioById(idUsuario);
         return horariosRepository.findByUsuarioAsociado(usuario)
-            .stream()
-            .map(HorarioMapper::toHorarioDetailDTO)
-            .collect(Collectors.toList());
-    }
-
-    public List<HorarioDetailDTO> getHorariosByIdUsuarioAndMonth(Long idUsuario, int month) {
-        Usuarios usuario = usuarioService.getUsuarioById(idUsuario);
-        return horariosRepository.findByUsuarioAsociadoAndMonth(usuario, month)
-            .stream()
-            .map(HorarioMapper::toHorarioDetailDTO)
-            .collect(Collectors.toList());
-    }
-
-    public Optional<HorarioDetailDTO> getHorarioByIdUsuarioAndFecha(Long idUsuario, String fechaText){
-        Usuarios usuario = usuarioService.getUsuarioById(idUsuario);
-        LocalDate fecha = LocalDate.parse(fechaText);
-        return horariosRepository.findByUsuarioAsociadoAndFecha(usuario, fecha)
-            .map(HorarioMapper::toHorarioDetailDTO);
-    }
-
-
-    public List<HorarioDetailDTO> getAllHorarios() {
-        return horariosRepository.findAll()
                 .stream()
                 .map(HorarioMapper::toHorarioDetailDTO)
-                .toList();
+                .collect(Collectors.toList());
+    }
+
+    public HorarioDetailDTO getHorarioByNombreOrId(String nombreOrId) {
+        try {
+            // Try to parse as ID first
+            Long id = Long.parseLong(nombreOrId);
+            return horariosRepository.findById(id)
+                    .map(HorarioMapper::toHorarioDetailDTO)
+                    .orElseThrow(() -> new RuntimeException("Horario no encontrado con ID: " + id));
+        } catch (NumberFormatException e) {
+            // If not a number, search by name
+            return horariosRepository.findByNombre(nombreOrId)
+                    .map(HorarioMapper::toHorarioDetailDTO)
+                    .orElseThrow(() -> new RuntimeException("Horario no encontrado con nombre: " + nombreOrId));
+        }
     }
 
     public Horarios createHorario(Horarios horario) {
@@ -66,17 +65,12 @@ public class HorariosService {
     }
 
     public Horarios updateHorario(Long idHorario, Horarios horario) {
-        // Buscar el horario existente por su ID
         Horarios existingHorario = horariosRepository.findById(idHorario)
                 .orElseThrow(() -> new RuntimeException("Horario no encontrado"));
-    
-        // Actualizar los campos del horario existente con los nuevos valores
-        existingHorario.setFecha(horario.getFecha());
-        existingHorario.setHoraInicio(horario.getHoraInicio());
-        existingHorario.setHoraFin(horario.getHoraFin());
+
+        existingHorario.setNombre(horario.getNombre());
         existingHorario.setUsuarioAsociado(horario.getUsuarioAsociado());
-    
-        // Guardar el horario actualizado
+
         return horariosRepository.save(existingHorario);
     }
 }
